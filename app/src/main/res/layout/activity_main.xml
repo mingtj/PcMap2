@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:padding="10dp">
+
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="WGS84坐标系:地球坐标系，国际通用坐标系"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="GCJ02坐标系:火星坐标系，WGS84坐标系加密后的坐标系；Google国内地图、高德、QQ地图 使用"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="BD09坐标系:百度坐标系，GCJ02坐标系加密后的坐标系"/>
+
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试地址:站西广场（湖北省武汉市洪山区团结大道）"
+        android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lng(精度_WGS84):"
+            android:layout_marginTop="10dp"/>
+
+
+        <EditText
+            android:id="@+id/lng"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="114.41571921053247"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lat(纬度_WGS84):"
+            android:layout_marginTop="10dp"/>
+
+
+        <EditText
+            android:id="@+id/lat"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="30.608395450454793"
+            />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_transform"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Start Transform"
+            android:onClick="transformEvent"/>
+
+        <Button
+            android:id="@+id/btn_to_map"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Test Map"
+            android:onClick="toMap"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="ToGCJ02(火星坐标系_谷歌,高德):"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/gcj02_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="精度：0_纬度：0"
+            />
+
+        <TextView
+            android:id="@+id/gcj02_result_true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="null"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToBD09(百度坐标系_百度):"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+
+        <TextView
+            android:id="@+id/bd09_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="精度：0_纬度：0"
+            />
+
+        <TextView
+            android:id="@+id/bd09_result_true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="null"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>
