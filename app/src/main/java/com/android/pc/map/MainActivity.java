@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.maps.CoordinateConverter;
+import com.amap.api.maps.model.LatLng;
 import com.android.pc.map.bean.Gps;
 import com.android.pc.map.utils.ConvertUtil;
 import com.android.pc.map.utils.PositionUtil;
@@ -75,7 +77,13 @@ public class MainActivity extends AppCompatActivity {
         }else{
             System.out.println("--gcj--lng:"+gcj.getWgLon());
             System.out.println("--gcj--lat:"+gcj.getWgLat());
+            System.out.println("==============================================================");
             mWsgToGcjResult.setText("精度："+gcj.getWgLon()+"_纬度："+gcj.getWgLat());
+
+            System.out.println("==============================================================");
+            LatLng ll = new LatLng(lat,lng);
+            OtherCoorConverterGd(ll);
+            System.out.println("==============================================================");
 
             Gps bd = PositionUtil.gcj02_To_Bd09(gcj.getWgLat(), gcj.getWgLon());
             if(bd==null){
@@ -103,12 +111,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    void toMap(View view){
+   public void toMap(View view){
         Intent i = new Intent(this,TestMapActivity.class);
         startActivity(i);
     }
 
 
+        /**
+         * 其他坐标系转到高德坐标系
+         * @param sourceLatLng:待转换坐标点 LatLng类型
+         */
+        private void OtherCoorConverterGd(LatLng sourceLatLng){
+            CoordinateConverter converter  = new CoordinateConverter(this);
+            // CoordType.GPS 待转换坐标类型
+            converter.from(CoordinateConverter.CoordType.GPS);
+            // sourceLatLng待转换坐标点 LatLng类型
+            converter.coord(sourceLatLng);
+            // 执行转换操作
+            LatLng desLatLng = converter.convert();
+            if(desLatLng==null){
+                System.out.println("---gaode---coorConverter---nul-----");
+            }else{
+                System.out.println("---gaode---coorConverter---lng:"+desLatLng.longitude);
+                System.out.println("---gaode---coorConverter---lat:"+desLatLng.latitude);
+            }
+    }
 
 }
 
