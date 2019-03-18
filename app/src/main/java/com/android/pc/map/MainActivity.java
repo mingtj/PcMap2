@@ -116,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void toLocation(View view){
+        Intent i = new Intent(this,LocationActivity.class);
+        startActivity(i);
+    }
 
         /**
          * 其他坐标系转到高德坐标系
