@@ -39,7 +39,7 @@ public class PositionUtil {
         dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
         double mgLat = lat + dLat;
         double mgLon = lon + dLon;
-        return new Gps(mgLat, mgLon);
+        return new Gps(mgLat,mgLat, mgLon);
     }
 
     /**
@@ -47,9 +47,9 @@ public class PositionUtil {
      * */
     public static Gps gcj_To_Gps84(double lat, double lon) {
         Gps gps = transform(lat, lon);
-        double lontitude = lon * 2 - gps.getWgLon();
-        double latitude = lat * 2 - gps.getWgLat();
-        return new Gps(latitude, lontitude);
+        double lontitude = lon * 2 - gps.getLongitude();
+        double latitude = lat * 2 - gps.getLatitude();
+        return new Gps(latitude,latitude, lontitude);
     }
 
     /**
@@ -64,7 +64,7 @@ public class PositionUtil {
         double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * pi);
         double bd_lon = z * Math.cos(theta) + 0.0065;
         double bd_lat = z * Math.sin(theta) + 0.006;
-        return new Gps(bd_lat, bd_lon);
+        return new Gps(bd_lat,bd_lat, bd_lon);
     }
 
     /**
@@ -77,7 +77,7 @@ public class PositionUtil {
         double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * pi);
         double gg_lon = z * Math.cos(theta);
         double gg_lat = z * Math.sin(theta);
-        return new Gps(gg_lat, gg_lon);
+        return new Gps(gg_lat,gg_lat, gg_lon);
     }
 
     /**
@@ -89,8 +89,8 @@ public class PositionUtil {
     public static Gps bd09_To_Gps84(double bd_lat, double bd_lon) {
 
         Gps gcj02 = PositionUtil.bd09_To_Gcj02(bd_lat, bd_lon);
-        Gps map84 = PositionUtil.gcj_To_Gps84(gcj02.getWgLat(),
-                gcj02.getWgLon());
+        Gps map84 = PositionUtil.gcj_To_Gps84(gcj02.getLatitude(),
+                gcj02.getLongitude());
         return map84;
 
     }
@@ -105,7 +105,7 @@ public class PositionUtil {
 
     public static Gps transform(double lat, double lon) {
         if (outOfChina(lat, lon)) {
-            return new Gps(lat, lon);
+            return new Gps(lat,lat, lon);
         }
         double dLat = transformLat(lon - 105.0, lat - 35.0);
         double dLon = transformLon(lon - 105.0, lat - 35.0);
@@ -117,7 +117,7 @@ public class PositionUtil {
         dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
         double mgLat = lat + dLat;
         double mgLon = lon + dLon;
-        return new Gps(mgLat, mgLon);
+        return new Gps(mgLat,mgLat, mgLon);
     }
 
     public static double transformLat(double x, double y) {
@@ -142,15 +142,15 @@ public class PositionUtil {
     public static void main(String[] args) {
 
         // 北斗芯片获取的经纬度为WGS84地理坐标 28.0948150010,112.9986987001
-        Gps gps = new Gps(28.0948150010,112.9986987001);
+        Gps gps = new Gps(28.8888,28.0948150010,112.9986987001);
         System.out.println("gps :" + gps);
-        Gps gcj = gps84_To_Gcj02(gps.getWgLat(), gps.getWgLon());
+        Gps gcj = gps84_To_Gcj02(gps.getLatitude(), gps.getLongitude());
         System.out.println("gcj :" + gcj);
-        Gps star = gcj_To_Gps84(gcj.getWgLat(), gcj.getWgLon());
+        Gps star = gcj_To_Gps84(gcj.getLatitude(), gcj.getLongitude());
         System.out.println("star:" + star);
-        Gps bd = gcj02_To_Bd09(gcj.getWgLat(), gcj.getWgLon());
+        Gps bd = gcj02_To_Bd09(gcj.getLatitude(), gcj.getLongitude());
         System.out.println("bd  :" + bd);
-        Gps gcj2 = bd09_To_Gcj02(bd.getWgLat(), bd.getWgLon());
+        Gps gcj2 = bd09_To_Gcj02(bd.getLatitude(), bd.getLongitude());
         System.out.println("gcj :" + gcj2);
     }
 }

@@ -21,4 +21,11 @@ public class Constants {
     public static final LatLng LANHUADAO = new LatLng(30.54611213854209,114.42440943838693);//114.42440943838693,30.54611213854209
     public static final LatLng NONGJIACAI = new LatLng(30.538222789396833,114.41930879359617);//114.41930879359617,30.538222789396833
 
+//    public static final String BaseUrl = "http://b2317324n3.iok.la/";//http://b2317324n3.iok.la/request
+
+    public static final String BaseUrl = "http://192.168.1.103:80/";//http://b2317324n3.iok.la/request
+
+
+    public static final String BaseUrlTest = "http://test.tuanzitech.com/eduService/";
+
 }

@@ -2,32 +2,37 @@ package com.android.pc.map.bean;
 
 public class Gps {
 
-    private double wgLat;
-    private double wgLon;
+    private double latitude;
+    private double longitude;
+    private double telphone;
 
-    public Gps(double wgLat, double wgLon) {
-        setWgLat(wgLat);
-        setWgLon(wgLon);
+    public Gps(double mTel,double wgLat, double wgLon) {
+        setTelphone(mTel);
+        setLatitude(wgLat);
+        setLongitude(wgLon);
     }
 
-    public double getWgLat() {
-        return wgLat;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setWgLat(double wgLat) {
-        this.wgLat = wgLat;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getWgLon() {
-        return wgLon;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setWgLon(double wgLon) {
-        this.wgLon = wgLon;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    @Override
-    public String toString() {
-        return wgLat + "," + wgLon;
+    public double getTelphone() {
+        return telphone;
+    }
+
+    public void setTelphone(double telphone) {
+        this.telphone = telphone;
     }
 }

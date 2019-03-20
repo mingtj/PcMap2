@@ -26,7 +26,7 @@ public class LocationUtil implements AMapLocationListener {
 
         //初始化定位参数
         clientOption = new AMapLocationClientOption();
-        clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+        clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         clientOption.setNeedAddress(true);
         clientOption.setOnceLocation(false);
         //设置是否强制刷新WIFI，默认为强制刷新

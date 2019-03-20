@@ -1,32 +1,22 @@
 package com.android.pc.map;
 
-import android.location.Location;
-import android.location.LocationListener;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
-import com.amap.api.maps.model.Circle;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.NavigateArrowOptions;
-import com.amap.api.maps.model.Polygon;
-import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletionService;
 
 public class TestMapActivity extends AppCompatActivity {
 
@@ -36,6 +26,8 @@ public class TestMapActivity extends AppCompatActivity {
     private static final int  CHANGE_CENTER = 1000;
     private static final int  NvaLine1 = 1001;
     private static final int  NvaLine2 = 1002;
+    private MapView mMapView = null;
+
     private LatLng LastDot;
 
 
@@ -59,7 +51,7 @@ public class TestMapActivity extends AppCompatActivity {
          }
      };
 
-    private MapView mMapView = null;
+
 
     /**
     AMap 类是地图的控制器类，用来操作地图。它所承载的工作包括：地图图层切换（如卫星图、黑夜地图）、改变地图状态（地图旋转角度、俯仰角、中心点坐标和缩放级别）、添加点标记（Marker）、绘制几何图形(Polyline、Polygon、Circle)、各类事件监听(点击、手势等)等，AMap 是地图 SDK 最重要的核心类，诸多操作都依赖它完成。
@@ -67,7 +59,6 @@ public class TestMapActivity extends AppCompatActivity {
      **/
     private AMap aMap;
 
-    private MyLocationStyle myLocationStyle;
 
     private LatLng ll;
 

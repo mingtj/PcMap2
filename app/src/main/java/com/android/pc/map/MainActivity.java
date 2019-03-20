@@ -10,9 +10,19 @@ import android.widget.TextView;
 
 import com.amap.api.maps.CoordinateConverter;
 import com.amap.api.maps.model.LatLng;
+import com.android.pc.map.api.GpsPositionApi;
+import com.android.pc.map.api.GpsService;
+import com.android.pc.map.api.SecurityKeyService;
 import com.android.pc.map.bean.Gps;
 import com.android.pc.map.utils.ConvertUtil;
 import com.android.pc.map.utils.PositionUtil;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -43,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
 //        testData();
+//        testRetrofitPost();
     }
 
     private void initView(){
@@ -68,30 +79,30 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("----lat:"+lat);
 
 
-        Gps gps = new Gps(lat,lng);
-        Gps gcj = PositionUtil.gps84_To_Gcj02(gps.getWgLat(), gps.getWgLon());
+        Gps gps = new Gps(lat,lat,lng);
+        Gps gcj = PositionUtil.gps84_To_Gcj02(gps.getLatitude(), gps.getLongitude());
         System.out.println("gcj  :" + gcj);
 
         if(gcj==null){
             System.out.println("----gcj---null--");
         }else{
-            System.out.println("--gcj--lng:"+gcj.getWgLon());
-            System.out.println("--gcj--lat:"+gcj.getWgLat());
+            System.out.println("--gcj--lng:"+gcj.getLongitude());
+            System.out.println("--gcj--lat:"+gcj.getLatitude());
             System.out.println("==============================================================");
-            mWsgToGcjResult.setText("精度："+gcj.getWgLon()+"_纬度："+gcj.getWgLat());
+            mWsgToGcjResult.setText("精度："+gcj.getLongitude()+"_纬度："+gcj.getLatitude());
 
             System.out.println("==============================================================");
             LatLng ll = new LatLng(lat,lng);
             OtherCoorConverterGd(ll);
             System.out.println("==============================================================");
 
-            Gps bd = PositionUtil.gcj02_To_Bd09(gcj.getWgLat(), gcj.getWgLon());
+            Gps bd = PositionUtil.gcj02_To_Bd09(gcj.getLatitude(), gcj.getLongitude());
             if(bd==null){
                 System.out.println("----bd---null--");
             }else{
-                System.out.println("--bd--lng:"+bd.getWgLon());
-                System.out.println("--bd--lat:"+bd.getWgLat());
-                mWsgToBdResult.setText("精度："+bd.getWgLon()+"_纬度："+bd.getWgLat());
+                System.out.println("--bd--lng:"+bd.getLongitude());
+                System.out.println("--bd--lat:"+bd.getLatitude());
+                mWsgToBdResult.setText("精度："+bd.getLongitude()+"_纬度："+bd.getLatitude());
             }
         }
 
@@ -117,8 +128,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toLocation(View view){
-        Intent i = new Intent(this,LocationActivity.class);
+        Intent i = new Intent(this,CustomLocationModeActivity.class);//LocationActivity
         startActivity(i);
+
+//        testRetrofitPost();
+//        testRetrofitPost2();
     }
 
         /**
@@ -140,6 +154,74 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("---gaode---coorConverter---lat:"+desLatLng.latitude);
             }
     }
+
+
+    private void testRetrofitPost(){
+
+        System.out.println("------testRetrofitPost-------------");
+        //构建Retrofit实例
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Constants.BaseUrl)
+                .build();
+        //构建请求
+        GpsPositionApi service = retrofit.create(GpsPositionApi.class);
+
+        //对发送请求进行封装
+        Call<Gps> positions = service.getGpsPositions();
+        //发送异步请求
+        positions.enqueue(new Callback<Gps>() {
+            @Override
+            public void onResponse(Call<Gps> call, Response<Gps> response) {
+                //请求成功时的回调 输出结果-response.body().show();
+                Gps s = response.body();
+                System.out.println("********ss******post gps success  result****************:"+s.getTelphone()+"---lat:"+s.getLatitude()+"---long:"+s.getLongitude());
+            }
+
+            @Override
+            public void onFailure(Call<Gps> call, Throwable t) {
+                //请求失败时候的回调
+                System.out.println("*******ff*********post gps result fail********************");
+            }
+        });
+
+    }
+
+
+    private void testRetrofitPost2(){
+
+        //构建Retrofit实例
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BaseUrl)//BaseUrlTest
+                .build();
+        //构建请求
+        GpsService service = retrofit.create(GpsService.class);
+        //对发送请求进行封装
+        Call<ResponseBody> positions = service.GetPositions();
+
+        //发送异步请求
+        positions.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //请求成功时的回调 输出结果-response.body().show();
+                try {
+                    String r = response.body().string();
+                    System.out.println("********%%%%%%******post gps success  result****************:" + r);
+                }catch(Exception e){
+                    System.out.println("--error---");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //请求失败时候的回调
+                System.out.println("*******%%%%%%%*********post gps result fail********************");
+            }
+        });
+
+    }
+
+
 
 }
 
